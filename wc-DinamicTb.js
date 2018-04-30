@@ -24,14 +24,50 @@ class dinamicTable extends HTMLElement {
         tabla.className ='tbTable'; 
         let tr = tabla.insertRow(-1); //Cabecera de la tabla
         tr.className ='tbfila-cabecera'
-        let headerTb = [];   
+        let headerTb = [];
+
+        var ids = [];
+        var pivote;
+        var count=0;
+
         for(let i = 0; i <losDatos.length; i++){
             for(let cabecera in losDatos[i]){
                 if(headerTb.indexOf(cabecera)===-1){
                     headerTb.push(cabecera);
+
+                    if(cabecera.indexOf("Collec") > -1){
+                        pivote=cabecera
+                        //  console.log(key);
+                    }
+                    if(cabecera.indexOf("id") > -1){
+                        ids[count]= cabecera;
+                        count++;
+                    }
                  } //cierre if
             } //cierre for
         } //cierre for
+
+        // we delete all the column Collection from the JSON
+        let borrar=headerTb.indexOf(pivote);
+        // console.log(borrar);
+        headerTb.splice(borrar,1);
+
+        //we sort the json and we put first the entity's id in the columns
+        var count2=0;
+        for(var i=0;i<headerTb.length;i++){
+            for(var j=0; j < ids.length;j++){
+                if(headerTb[i] == ids[j]){
+                    var trade = headerTb[count2]; //primera posicion del arreglo
+                    headerTb[count2] = ids [j]; //pasando el id al principio
+                    ids[j] = trade;
+                    headerTb[i] = trade;
+                    count2++;
+                }
+            }
+        }
+        // console.log(headerTb);
+
+
         for (let i = 0; i < headerTb.length; i++) {
             let th = document.createElement("th");      // CABECERA DE LA TABLA 
             th.className = 'tbcelda-cabecera'
