@@ -1,0 +1,19 @@
+.tbContainer{ /* Estilos del div contenedor de la tabla */
+
+    background-color: darkcyan;
+}
+
+.tbTable{
+    background-color: whitesmoke;
+}
+.tbfila-cabecera{
+    background-color: violet;
+}
+
+.tbcelda-cabecera{
+    background-color: yellow;
+}
+
+.tbfila{
+    background-color: brown;
+}
