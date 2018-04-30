@@ -1,13 +1,14 @@
 class dinamicTable extends HTMLElement {
     constructor(){
         super();
-        
+        this._tablaPara ="null";
+        //this.importDocument = document.currentScript.ownerDocument;
     } //cierre de constructor
-    
+
     connectedCallback(){
         let shadow = this.attachShadow({mode: 'open'}); //raiz del shadowDom
-        let algo = this.path('https://jsonplaceholder.typicode.com/users');
-        shadow.innerHTML += '<style>@import "tabla.css";</style>';
+        let algo = this.path(`https://jsonplaceholder.typicode.com/${this.getAttribute('tablaPara')}`);
+        shadow.innerHTML += '<style>@import "tabla.css";</style>'; //se importan los estilos para la tabla
         algo.then(data =>  {
              let cont = this.crearTabla(data);
              shadow.appendChild(cont); //se guarda la tabla en el shadowdom
@@ -18,6 +19,7 @@ class dinamicTable extends HTMLElement {
     crearTabla(losDatos){ 
         let contenedor = document.createElement('div'); //contenedor de la tabla
         contenedor.className ='tbContainer';
+        contenedor.style = 'overflow-x:auto;';
         let tabla = document.createElement('table');
         tabla.className ='tbTable'; 
         let tr = tabla.insertRow(-1); //Cabecera de la tabla

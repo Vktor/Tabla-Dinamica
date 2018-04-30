@@ -1,19 +1,36 @@
 .tbContainer{ /* Estilos del div contenedor de la tabla */
-
+    width: 100%;
+    margin: 0 auto;
     background-color: darkcyan;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 1.5em;
 }
 
 .tbTable{
-    background-color: whitesmoke;
+    margin: 0 auto;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .tbfila-cabecera{
-    background-color: violet;
-}
+    background-color: #1A1F25;
+    font-size: 1.1em;
+    color: white;
+    }
 
 .tbcelda-cabecera{
-    background-color: yellow;
+    padding: 0.5em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
-.tbfila{
-    background-color: brown;
+.tbfila:nth-child(odd){
+    background-color:#EBEBEB;
+}
+	
+.tbfila:nth-child(even) {
+    background-color: #FFFFFF;
+}
+
+.tbcelda{
+    padding: 0.5em;
+    
 }
