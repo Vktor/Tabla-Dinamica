@@ -1,13 +1,13 @@
 class dinamicTable extends HTMLElement {
     constructor(){
         super();
-        this._tablaPara ="null";
-        //this.importDocument = document.currentScript.ownerDocument;
+        this._from ="null";
     } //cierre de constructor
 
     connectedCallback(){
         let shadow = this.attachShadow({mode: 'open'}); //raiz del shadowDom
-        let algo = this.path(`http://localhost:8080/MantenimientoTPI-web/webresources/${this.getAttribute('tablaPara')}`);
+        let algo = this.path(`http://localhost:8080/MantenimientoTPI-web/webresources/${this.getAttribute('from')}`);
+        //let algo = this.path(`https://jsonplaceholder.typicode.com/${this.getAttribute('from')}`);
         shadow.innerHTML += '<style>@import "tabla.css";</style>'; //se importan los estilos para la tabla
         algo.then(data =>  {
              let cont = this.crearTabla(data);
