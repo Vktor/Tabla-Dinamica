@@ -1,36 +1,63 @@
 .tbContainer{ /* Estilos del div contenedor de la tabla */
     width: 100%;
-    margin: 0 auto;
     background-color: darkcyan;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding: 1.5em;
+    
 }
 
 .tbTable{
-    margin: 0 auto;
     border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    border-collapse: collapse;
+    border-spacing: 0;
+    -webkit-overflow-scrolling: touch;
+        background-size: 10px 100%, 10px 100%;
+        background-attachment: scroll, scroll;
+        background-repeat: no-repeat;
 }
 .tbfila-cabecera{
     background-color: #1A1F25;
     font-size: 1.1em;
     color: white;
+    font-family: 'Roboto', sans-serif;
+    text-align: left;
     }
 
 .tbcelda-cabecera{
     padding: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-transform: uppercase;
 }
 
 .tbfila:nth-child(odd){
     background-color:#EBEBEB;
+
 }
 	
 .tbfila:nth-child(even) {
     background-color: #FFFFFF;
+    
+}
+.tbfila:hover{
+    background-color: rgb(104, 102, 102);
+    color: white;
 }
 
 .tbcelda{
     padding: 0.5em;
-    
+    font-family: 'Nunito', sans-serif;
+}
+
+@media only screen and (max-width: 600px) {
+    .tbContainer {
+        background-color:pink;
+        width: 100%;
+    }
+    .tbTable{
+        margin: 0 auto;
+        width: 90%;
+    }
+
 }

@@ -22,12 +22,14 @@ class dinamicTable extends HTMLElement {
         let tabla = document.createElement('table');
         tabla.className ='tbTable'; 
         let tr = tabla.insertRow(-1); //Cabecera de la tabla
-        tr.className ='tbfila-cabecera'
+        tr.className ='tbfila-cabecera';
+        let tbody = document.createElement('tbody');
+        tbody.className = 'tbBody';
         let headerTb = [];
 
-        var ids = [];
-        var pivote;
-        var count=0;
+        let ids = [];
+        let pivote;
+        let count=0;
 
         for(let i = 0; i <losDatos.length; i++){
             for(let cabecera in losDatos[i]){
@@ -78,6 +80,7 @@ class dinamicTable extends HTMLElement {
 
                 tr = tabla.insertRow(-1)  //FILA
                 tr.className = 'tbfila'
+                tbody.appendChild(tr)
             for(let j=0; j<headerTb.length; j++){
               let celda = tr.insertCell(-1); //CELDAS   
               celda.className = 'tbcelda'
@@ -85,7 +88,7 @@ class dinamicTable extends HTMLElement {
            }
        }
 
-
+       tabla.appendChild(tbody);
         contenedor.appendChild(tabla); //devuelve toda la tabla
         return contenedor;
     } // cierre crear datos 

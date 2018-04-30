@@ -3,16 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-   <!--  <script src="prueba.js"></script> -->
+    <title>Sistema de Mentenimiento</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:300,400,700,900|Roboto" rel="stylesheet">
    <script src="wc-DinamicTb.js"></script> 
-  <!-- <link rel="stylesheet" href="tabla.css"> -->
+  <link rel="stylesheet" href="index.css"> 
 
 </head>
 <body>
-
-    <wc-dinamictb from="users"></wc-dinamictb>
+    <nav>
+        <ul class="menu">
+            <li><a href="#"></a></li>
+            <li><a href="#"><i class="fas fa-briefcase"></i>Mis Ordenes de trabajo</a></li>
+            <li><a href="#"><i class="fas fa-desktop"></i>Equipos/Partes</a></li>
+            <li><a href="#"><i class="far fa-calendar-alt"></i>Calendario</a></li>
+            <li><a href="#"><i class="fas fa-user"></i>Perfil</a></li>
+        </ul>
+    </nav>
+    <div class="tabla">
+        <wc-dinamictb from="users"></wc-dinamictb>
+    </div>
+    
     
 </body>
 </html>
