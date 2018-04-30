@@ -7,7 +7,7 @@ class dinamicTable extends HTMLElement {
 
     connectedCallback(){
         let shadow = this.attachShadow({mode: 'open'}); //raiz del shadowDom
-        let algo = this.path(`https://jsonplaceholder.typicode.com/${this.getAttribute('tablaPara')}`);
+        let algo = this.path(`http://localhost:8080/MantenimientoTPI-web/webresources/${this.getAttribute('tablaPara')}`);
         shadow.innerHTML += '<style>@import "tabla.css";</style>'; //se importan los estilos para la tabla
         algo.then(data =>  {
              let cont = this.crearTabla(data);
