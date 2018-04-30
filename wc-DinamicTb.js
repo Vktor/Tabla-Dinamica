@@ -19,7 +19,6 @@ class dinamicTable extends HTMLElement {
     crearTabla(losDatos){ 
         let contenedor = document.createElement('div'); //contenedor de la tabla
         contenedor.className ='tbContainer';
-        contenedor.style = 'overflow-x:auto;';
         let tabla = document.createElement('table');
         tabla.className ='tbTable'; 
         let tr = tabla.insertRow(-1); //Cabecera de la tabla
