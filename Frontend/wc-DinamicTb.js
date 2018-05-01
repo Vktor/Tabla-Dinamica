@@ -7,7 +7,7 @@ class dinamicTable extends HTMLElement {
     connectedCallback(){
         let shadow = this.attachShadow({mode: 'open'}); //raiz del shadowDom
 
-        //let prom = this.path(`http://localhost:8080/MantenimientoTPI-web/webresources/${this.getAttribute('from')}`);
+       // let prom = this.path(`http://localhost:8080/MantenimientoTPI-web/webresources/${this.getAttribute('from')}`);
       //  let prom = this.path(`https://jsonplaceholder.typicode.com/${this.getAttribute('from')}`);
 
         let prom = this.path(`http://172.25.0.29:8181/MantenimientoTPI-web/webresources/${this.getAttribute('from')}`);
