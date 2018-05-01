@@ -6,12 +6,13 @@ class dinamicTable extends HTMLElement {
 
     connectedCallback(){
         let shadow = this.attachShadow({mode: 'open'}); //raiz del shadowDom
-        let prom = this.path(`http://localhost:8080/MantenimientoTPI-web/webresources/${this.getAttribute('from')}`);
-        //let prom = this.path(`https://jsonplaceholder.typicode.com/${this.getAttribute('from')}`);
+        //let prom = this.path(`http://localhost:8080/MantenimientoTPI-web/webresources/${this.getAttribute('from')}`);
+        let prom = this.path(`https://jsonplaceholder.typicode.com/${this.getAttribute('from')}`);
         shadow.innerHTML += '<style>@import "tabla.css";</style>'; //se importan los estilos para la tabla
         prom.then(data =>  {
              let cont = this.crearTabla(data);
              shadow.appendChild(cont); //se guarda la tabla en el shadowdom
+             shadow.appendChild(this.botonGuardar()); //Se agrega el boton de agregar fila
         })
         .catch(e =>console.log(e));
     } //cierre de callback
@@ -23,10 +24,10 @@ class dinamicTable extends HTMLElement {
         tabla.className ='tbTable'; 
         let tr = tabla.insertRow(-1); //Cabecera de la tabla
         tr.className ='tbfila-cabecera';
+        tr.contentEditable="true";
         let tbody = document.createElement('tbody');
         tbody.className = 'tbBody';
         let headerTb = [];
-
         let ids = [];
         let pivote;
         let count=0;
@@ -72,6 +73,7 @@ class dinamicTable extends HTMLElement {
         for (let i = 0; i < headerTb.length; i++) {
             let th = document.createElement("th");      // CABECERA DE LA TABLA 
             th.className = 'tbcelda-cabecera'
+            th.contentEditable="true";
             th.innerHTML = headerTb[i];
             tr.appendChild(th);
             tabla.appendChild(tr);
@@ -84,6 +86,7 @@ class dinamicTable extends HTMLElement {
             for(let j=0; j<headerTb.length; j++){
               let celda = tr.insertCell(-1); //CELDAS   
               celda.className = 'tbcelda'
+              celda.contentEditable="true"
                celda.innerHTML = losDatos[i][headerTb[j]]
            }
        }
@@ -92,7 +95,18 @@ class dinamicTable extends HTMLElement {
         contenedor.appendChild(tabla); //devuelve toda la tabla
         return contenedor;
     } // cierre crear datos 
+    
+    botonGuardar(){
+        let btnConte = document.createElement("div");
+        btnConte.className ='btnConte';
 
+        let btnGuardar = document.createElement("button");
+        btnGuardar.className ='btnAgregar';
+        btnGuardar.innerText ='Guardar Cambios';
+
+
+        return btnConte.appendChild(btnGuardar);
+    }
 
     path(URI){
         return fetch(URI) //se realiza la petición 

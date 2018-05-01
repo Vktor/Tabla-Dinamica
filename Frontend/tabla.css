@@ -1,14 +1,15 @@
 .tbContainer{ /* Estilos del div contenedor de la tabla */
     width: 100%;
-    background-color: darkcyan;
-    
+    overflow-x: auto;
+    max-height: 30em;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
 }
 
 .tbTable{
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 15px;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
     min-width: 100%;
-    overflow-x: auto;
+    max-height: 50%;
     white-space: nowrap;
     border-collapse: collapse;
     border-spacing: 0;
@@ -16,19 +17,22 @@
         background-size: 10px 100%, 10px 100%;
         background-attachment: scroll, scroll;
         background-repeat: no-repeat;
+    border: 1px solid rgba(84, 83, 83, 0.371);
 }
+
 .tbfila-cabecera{
     background-color: #1A1F25;
     font-size: 1.1em;
     color: white;
     font-family: 'Roboto', sans-serif;
     text-align: left;
-    }
+     }
 
 .tbcelda-cabecera{
     padding: 0.5em;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     text-transform: uppercase;
+   
 }
 
 .tbfila:nth-child(odd){
@@ -43,11 +47,19 @@
 .tbfila:hover{
     background-color: rgb(104, 102, 102);
     color: white;
+    cursor: pointer;
 }
 
 .tbcelda{
     padding: 0.5em;
     font-family: 'Nunito', sans-serif;
+}
+
+.btnAgregar{
+    margin-top: 20px;
+   
+    height: 30px;
+    font-size: 1em
 }
 
 @media only screen and (max-width: 600px) {
