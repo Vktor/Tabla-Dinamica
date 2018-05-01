@@ -100,6 +100,8 @@ class dinamicTable extends HTMLElement {
         return contenedor;
     } // cierre crear datos 
     
+
+    
     botonGuardar(){
         let btnConte = document.createElement("div");
         btnConte.className ='btnConte';
