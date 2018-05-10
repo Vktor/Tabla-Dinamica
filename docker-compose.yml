@@ -9,7 +9,7 @@ services:
         ports:
             - '3300:3306'
         volumes:
-            - ./mariadblMantenimientoVol:/var/lib/mysql
+            - /home/mariadblMantenimientoVol:/var/lib/mysql
         networks: 
             mantenimiento_net:
                 ipv4_address: 172.25.0.28
