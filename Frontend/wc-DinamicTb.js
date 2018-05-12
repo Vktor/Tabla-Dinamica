@@ -2,142 +2,225 @@ class dinamicTable extends HTMLElement {
     constructor(){
         super();
         this._from ="null";
+        this._busquedas = null;
+        this._metodo = null;
     } //cierre de constructor
 
     connectedCallback(){
-        let shadow = this.attachShadow({mode: 'open'}); //raiz del shadowDom
-      //  let prom = this.path(`https://jsonplaceholder.typicode.com/${this.getAttribute('from')}`);
-        let prom = this.pathGET(`http://172.25.0.29:8181/MantenimientoTPI-web/webresources/${this.getAttribute('from')}`);
+        const sd = this.attachShadow({ mode: 'open' });
+        let style = `<style>
+        * {
+          font-family: "Gill Sans", sans-serif;
+        }
 
-        //let put = this.pathPUT(`https://jsonplaceholder.typicode.com/posts/${idModificado}`)
-        //let put = this.pathPUT(`http://172.25.0.29:8181/MantenimientoTPI-web/webresources/${this.getAttribute('from')}`);
-        shadow.innerHTML += '<style>@import "tabla.css";</style>'; //se importan los estilos para la tabla
-        prom.then(data =>  {
-             let cont = this.crearTabla(data);
-             shadow.appendChild(cont); //se guarda la tabla en el shadowdom
-             shadow.appendChild(this.botonGuardar(cont)); //Se agrega el boton de agregar fila
-        })
-        .catch(e =>console.log(e));
+        #tbTable{
+            border-radius: 15px;
+            /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+            min-width: 100%;
+            max-height: 50%;
+            white-space: nowrap;
+            border-collapse: collapse;
+            border-spacing: 0;
+            -webkit-overflow-scrolling: touch;
+            background-size: 10px 100%, 10px 100%;
+            background-attachment: scroll, scroll;
+            background-repeat: no-repeat;
+            border: 1px solid rgba(84, 83, 83, 0.371);
+        }
 
+        td, th {
+          text-align: center;
+          padding: 3px;
+        }
 
-    } //cierre de callback
+        th {
+          background-color: #F0544F;
+        }
 
-    crearTabla(losDatos){ 
-        let contenedor = document.createElement('div'); //contenedor de la tabla
+        tr:hover {
+          background-color:#C6D8D3;
+        }
+
+        #paginacionBar {
+          text-align: center;
+          margin-top: 20px;
+        }
+
+        #paginacionBar * {
+          margin: 3px;
+        }
+
+        button {    
+          background-color: #C6D8D3;
+          border-style: solid;
+          border-width: 2px;
+          border-color: #331832;
+          border-radius: 5px;
+          font-weight: bold;
+          padding: 7px;
+        }
+
+        button:hover {
+          background-color: #D81E5B;
+        }
+        </style>
+        <div>
+            <slot entidad = 'entidad'></slot>
+        </div>`
+
+        sd.innerHTML = style;
+/*
+        const contenedor = document.createElement('div');
+        contenedor.id = 'tablaContenedor';
         contenedor.className ='tbContainer';
+
         let tabla = document.createElement('table');
-        tabla.className ='tbTable';
-        tabla.id = 'tablepaging';
-        let tr = tabla.insertRow(-1); //Cabecera de la tabla
-        tr.className ='tbfila-cabecera';
+        //tabla.id = 'tablaEntidad';
+        tabla.id ='tbTable';
+
         let tbody = document.createElement('tbody');
         tbody.className = 'tbBody';
         tbody.contentEditable="true";
         let headerTb = [];
         let ids = [];
-        let pivote;
-        let count=0;
-        for(let i = 0; i <losDatos.length; i++){
-            for(let cabecera in losDatos[i]){
-                if(headerTb.indexOf(cabecera)===-1){
-                    headerTb.push(cabecera);
 
-                    if(cabecera.indexOf("List") > -1){
-                        pivote=cabecera
-                        //  console.log(key);
+        let cabecera = document.createElement('th');
+        cabecera.id = 'cabeceraEntidad';
+
+        let celda = document.createElement('td');
+        celda.id = 'celdaEntidad';
+*/
+        //Recibe un json con la busqueda deseada
+        let crearTablaEntidad = function (busquedas, paginacion) {
+            let maxPage = Math.ceil(busquedas.length / paginacion);
+            let actualPageNumber = 1;
+
+            var renderPagination = function () {
+                sd.innerHTML = style;
+
+                let changePage = function (option) {
+                    if (this.innerText == '<<') {
+                        actualPageNumber = 1;
+                        this.disabled = true;
+                    } else if (this.innerText == '<') {
+                        if (actualPageNumber != 1) {
+                            actualPageNumber--;
+                        }
+                    } else if (this.innerText == '>') {
+                        if (actualPageNumber != maxPage) {
+                            actualPageNumber++;
+                        }
+                    } else {
+                        actualPageNumber = maxPage;
+                        this.disabled = true;
                     }
-                    if(cabecera.indexOf("id") > -1){
-                        ids[count]= cabecera;
-                        count++;
-                    }
-                 } //cierre if
-            } //cierre for
-        } //cierre for
-        // we delete all the column Collection from the JSON
-        let borrar=headerTb.indexOf(pivote);
-        headerTb.splice(borrar,1);
-        //we sort the json and we put first the entity's id in the columns
-        var count2=0;
-        for(var i=0;i<headerTb.length;i++){
-            for(var j=0; j < ids.length;j++){
-                if(headerTb[i] == ids[j]){
-                    var trade = headerTb[count2]; //primera posicion del arreglo
-                    headerTb[count2] = ids [j]; //pasando el id al principio
-                    ids[j] = trade;
-                    headerTb[i] = trade;
-                    count2++;
+
+                    renderPagination();
                 }
+
+                let contenedor = document.createElement('div');
+                contenedor.id = 'tablaContenedor';
+
+                let tabla = document.createElement('table');
+                tabla.id = 'tablaEntidad'
+
+                let tbody = document.createElement('tbody');
+                tbody.className = 'tbBody';
+                tbody.contentEditable="true";
+                let headerTb = [];
+                let ids = [];
+
+                let cabecera = document.createElement('th');
+                cabecera.id = 'cabeceraEntidad'
+
+                let celda = document.createElement('td');
+                celda.id = 'celdaEntidad';
+
+                let columna = [];
+
+                for (var i = 0; i < busquedas.length; i++) {
+                    for (var key in busquedas[i]) {
+                        if (columna.indexOf(key) === -1) {
+                            columna.push(key);
+                        }
+                    }
+                }
+
+                var tr = tabla.insertRow(-1);
+
+                for (var i = 0; i < columna.length; i++) {
+                    var th = document.createElement('th');
+                    th.className = 'tbcelda-cabecera'
+                    th.innerHTML = columna[i];
+                    tr.appendChild(th);
+                    tabla.appendChild(tr);
+
+                }
+
+                let maxIndex = actualPageNumber == maxPage ? busquedas.length : paginacion * actualPageNumber;
+
+                for (var i = paginacion * actualPageNumber - paginacion; i < maxIndex; i++) {
+                    tr = tabla.insertRow(-1);
+                    tr.className = 'tbfila';
+                    tbody.appendChild(tr);
+                    for (var j = 0; j < columna.length; j++) {
+                        var newCelda = tr.insertCell(-1);
+                        newCelda.innerHTML = busquedas[i][columna[j]];
+                        tr.onclick = function(){
+
+                            console.log(this.innerText);
+                        };
+                    }
+                }
+                tabla.appendChild(tbody);
+                contenedor.appendChild(tabla);
+                let paginacionBar = document.createElement("div");
+                let tableTitleBar = document.createElement("div");
+                paginacionBar.id = "paginacionBar";
+                tableTitleBar.id = "tableTitleBar";
+
+                let tableTitle = document.createElement("h1");
+                //tableTitle.innerText = this.getAttribute("busqueda");
+                tableTitleBar.appendChild(tableTitle);
+
+                let buttonFirst = document.createElement("button");
+                let buttonPrevious = document.createElement("button");
+                let buttonNext = document.createElement("button");
+                let buttonLast = document.createElement("button");
+                let span = document.createElement("span");
+                buttonFirst.innerText = "<<";
+                buttonFirst.onclick = changePage;
+                buttonPrevious.innerText = "<";
+                buttonPrevious.onclick = changePage;
+                buttonNext.innerText = ">"
+                buttonNext.onclick = changePage;
+                buttonLast.innerText = ">>";
+                buttonLast.onclick = changePage;
+                span.innerText = "Page " + actualPageNumber + " of " + maxPage;
+                paginacionBar.appendChild(buttonFirst);
+                paginacionBar.appendChild(buttonPrevious);
+                paginacionBar.appendChild(span);
+                paginacionBar.appendChild(buttonNext);
+                paginacionBar.appendChild(buttonLast);
+
+                sd.appendChild(tableTitleBar);
+                sd.appendChild(contenedor);
+                sd.appendChild(paginacionBar);
             }
+
+            renderPagination();
         }
-        // console.log(headerTb);
-        for (let i = 0; i < headerTb.length; i++) {
-            let th = document.createElement("th");      // CABECERA DE LA TABLA 
-            th.className = 'tbcelda-cabecera'
-            th.innerHTML = headerTb[i];
-            tr.appendChild(th);
-            tabla.appendChild(tr);
+
+        let accion = function (entidad, paginacion=5) {// AA
+            fetch(`http://localhost:8080/MantenimientoTPI-web/webresources/${entidad}`).then(function (respuesta) {
+                // Convertir a JSON
+                return respuesta.json();
+            }).then(function (j) {
+                // Ahora 'j' es un objeto JSON
+                crearTablaEntidad(j, paginacion);
+            });
         }
-        for(let i=0; i<losDatos.length; i++){
-
-                tr = tabla.insertRow(-1)  //FILA
-                tr.className = 'tbfila'
-                tr.id =`f${i}`;
-                tbody.appendChild(tr)
-            for(let j=0; j<headerTb.length; j++){
-              let celda = tr.insertCell(-1); //CELDAS   
-              celda.className = 'tbcelda';
-              celda.id =`f${i}c${j}`;
-               celda.innerHTML = losDatos[i][headerTb[j]]
-           }
-       }
-
-        tabla.appendChild(tbody);
-        contenedor.appendChild(tabla); //devuelve toda la tabla
-        return contenedor;
-
-
-    } // cierre crear datos 
-    
-
-    
-    botonGuardar(solotabla){
-        //creacion del Boton en el Shadow DOM
-        let btnConte = document.createElement("div");
-        btnConte.className ='btnConte';
-        let btnGuardar = document.createElement("button");
-        btnGuardar.className ='btnAgregar';
-        btnGuardar.innerText ='Guardar Cambios';
-        //viarable para la peticion put
-
-        //Obteniendo la fila del campo editado
-        solotabla.addEventListener('click',(e)=>{
-            e = e|| window.event;
-            let target = e.target || e.srcElement,
-                text = target.textContent, //Contenido de la celda clickeada
-                elid = target.id; //id de la celda clickeada
-                console.log(text+" el id es:"+elid);
-        })
-
-        btnGuardar.addEventListener('click',()=>{
-            
-        })
-
-        return btnConte.appendChild(btnGuardar);
-    }
-
-
-    pathGET(URI){
-        return fetch(URI) //se realiza la petición 
-            .then(r => r.json());
-    } //cierre de path
-
-    pathPUT(URI){
-        return fetch(URI,{
-            method: 'PUT',
-            body: datos
-        })
-        .then(r=>r.json());
-            
+        accion(this.getAttribute("from"), this.getAttribute("paginacion"));
     }
 
 } //Cierre de clase
