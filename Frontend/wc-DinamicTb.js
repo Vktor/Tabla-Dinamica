@@ -12,8 +12,14 @@ class dinamicTable extends HTMLElement {
         * {
           font-family: "Gill Sans", sans-serif;
         }
+        .tbContainer{ /* Estilos del div contenedor de la tabla */
+            width: 100%;
+            overflow-x: auto;
+            max-height: 30em;
+            /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+        }
 
-        #tbTable{
+        .tbTable{
             border-radius: 15px;
             /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
             min-width: 100%;
@@ -26,21 +32,63 @@ class dinamicTable extends HTMLElement {
             background-attachment: scroll, scroll;
             background-repeat: no-repeat;
             border: 1px solid rgba(84, 83, 83, 0.371);
+            border-style: outset;
         }
 
-        td, th {
-          text-align: center;
-          padding: 3px;
+               
+        .tbfila-cabecera{
+            background-color: #1A1F25;
+            font-size: 1.1em;
+            color: white;
+            font-family: 'Roboto', sans-serif;
+            text-align: left;
+             }
+        
+        .tbcelda-cabecera{
+            padding: 0.5em;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            text-transform: uppercase;
+           
         }
-
-        th {
-          background-color: #F0544F;
+        
+        .tbfila:nth-child(odd){
+            background-color:#EBEBEB;
+        
         }
-
-        tr:hover {
-          background-color:#C6D8D3;
+            
+        .tbfila:nth-child(even) {
+            background-color: #FFFFFF;
+            
         }
-
+        .tbfila:hover{
+            background-color: rgb(104, 102, 102);
+            color: white;
+            cursor: pointer;
+        }
+        
+        .tbcelda{
+            padding: 0.5em;
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .btnAgregar{
+            margin-top: 20px;
+           
+            height: 30px;
+            font-size: 1em
+        }
+        
+        @media only screen and (max-width: 600px) {
+            .tbContainer {
+                background-color:pink;
+                width: 100%;
+            }
+            .tbTable{
+                margin: 0 auto;
+                width: 90%;
+            }
+        
+        }
         #paginacionBar {
           text-align: center;
           margin-top: 20px;
@@ -51,17 +99,18 @@ class dinamicTable extends HTMLElement {
         }
 
         button {    
-          background-color: #C6D8D3;
-          border-style: solid;
+          background-color: #1A1F25;
+          border-style: outset;
           border-width: 2px;
           border-color: #331832;
           border-radius: 5px;
           font-weight: bold;
           padding: 7px;
+          color: whitesmoke;
         }
 
         button:hover {
-          background-color: #D81E5B;
+          background-color: rgb(104, 102, 102);
         }
         </style>
         <div>
@@ -119,10 +168,11 @@ class dinamicTable extends HTMLElement {
                 }
 
                 let contenedor = document.createElement('div');
-                contenedor.id = 'tablaContenedor';
+                contenedor.className ='tbContainer';
 
                 let tabla = document.createElement('table');
-                tabla.id = 'tablaEntidad'
+                //tabla.id ='tbTable';
+                tabla.className ='tbTable';
 
                 let tbody = document.createElement('tbody');
                 tbody.className = 'tbBody';
@@ -147,6 +197,7 @@ class dinamicTable extends HTMLElement {
                 }
 
                 var tr = tabla.insertRow(-1);
+                tr.className ='tbfila-cabecera';
 
                 for (var i = 0; i < columna.length; i++) {
                     var th = document.createElement('th');
@@ -154,7 +205,6 @@ class dinamicTable extends HTMLElement {
                     th.innerHTML = columna[i];
                     tr.appendChild(th);
                     tabla.appendChild(tr);
-
                 }
 
                 let maxIndex = actualPageNumber == maxPage ? busquedas.length : paginacion * actualPageNumber;
@@ -165,6 +215,7 @@ class dinamicTable extends HTMLElement {
                     tbody.appendChild(tr);
                     for (var j = 0; j < columna.length; j++) {
                         var newCelda = tr.insertCell(-1);
+                        celda.className = 'tbcelda';
                         newCelda.innerHTML = busquedas[i][columna[j]];
                         tr.onclick = function(){
 
@@ -172,6 +223,7 @@ class dinamicTable extends HTMLElement {
                         };
                     }
                 }
+
                 tabla.appendChild(tbody);
                 contenedor.appendChild(tabla);
                 let paginacionBar = document.createElement("div");
@@ -211,7 +263,7 @@ class dinamicTable extends HTMLElement {
             renderPagination();
         }
 
-        let accion = function (entidad, paginacion=5) {// AA
+        let accion = function (entidad, paginacion = 5) {// AA
             fetch(`http://localhost:8080/MantenimientoTPI-web/webresources/${entidad}`).then(function (respuesta) {
                 // Convertir a JSON
                 return respuesta.json();
