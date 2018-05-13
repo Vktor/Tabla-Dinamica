@@ -1,4 +1,4 @@
-FROM payara/micro:5.181
+FROM payara/micro:181
 LABEL mantainer "sergio9508 <gm13006@ues.edu.sv>"
 USER root
 EXPOSE 4848 8009 8080 8181
