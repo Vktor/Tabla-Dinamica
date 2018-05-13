@@ -248,7 +248,7 @@ class dinamicTable extends HTMLElement {
                 buttonNext.onclick = changePage;
                 buttonLast.innerText = ">>";
                 buttonLast.onclick = changePage;
-                span.innerText = "Page " + actualPageNumber + " of " + maxPage;
+                span.innerText = "Pág " + actualPageNumber + " de " + maxPage;
                 paginacionBar.appendChild(buttonFirst);
                 paginacionBar.appendChild(buttonPrevious);
                 paginacionBar.appendChild(span);
