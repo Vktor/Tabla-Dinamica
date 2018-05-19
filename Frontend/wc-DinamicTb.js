@@ -7,7 +7,7 @@ class dinamicTable extends HTMLElement {
     } //cierre de constructor
 
     connectedCallback(){
-        const sd = this.attachShadow({ mode: 'open' });
+        const shadow = this.attachShadow({ mode: 'open' });
         let style = `<style>
         * {
           font-family: "Gill Sans", sans-serif;
@@ -35,7 +35,7 @@ class dinamicTable extends HTMLElement {
             border-style: outset;
         }
 
-               
+
         .tbfila-cabecera{
             background-color: #1A1F25;
             font-size: 1.1em;
@@ -43,41 +43,41 @@ class dinamicTable extends HTMLElement {
             font-family: 'Roboto', sans-serif;
             text-align: left;
              }
-        
+
         .tbcelda-cabecera{
             padding: 0.5em;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             text-transform: uppercase;
-           
+
         }
-        
+
         .tbfila:nth-child(odd){
             background-color:#EBEBEB;
-        
+
         }
-            
+
         .tbfila:nth-child(even) {
             background-color: #FFFFFF;
-            
+
         }
         .tbfila:hover{
             background-color: rgb(104, 102, 102);
             color: white;
             cursor: pointer;
         }
-        
+
         .tbcelda{
             padding: 0.5em;
             font-family: 'Nunito', sans-serif;
         }
-        
+
         .btnAgregar{
             margin-top: 20px;
-           
+
             height: 30px;
             font-size: 1em
         }
-        
+
         @media only screen and (max-width: 600px) {
             .tbContainer {
                 background-color:pink;
@@ -87,7 +87,7 @@ class dinamicTable extends HTMLElement {
                 margin: 0 auto;
                 width: 90%;
             }
-        
+
         }
         #paginacionBar {
           text-align: center;
@@ -98,7 +98,7 @@ class dinamicTable extends HTMLElement {
           margin: 3px;
         }
 
-        button {    
+        button {
           background-color: #1A1F25;
           border-style: outset;
           border-width: 2px;
@@ -117,45 +117,25 @@ class dinamicTable extends HTMLElement {
             <slot entidad = 'entidad'></slot>
         </div>`
 
-        sd.innerHTML = style;
-/*
-        const contenedor = document.createElement('div');
-        contenedor.id = 'tablaContenedor';
-        contenedor.className ='tbContainer';
+        shadow.innerHTML = style;
 
-        let tabla = document.createElement('table');
-        //tabla.id = 'tablaEntidad';
-        tabla.id ='tbTable';
-
-        let tbody = document.createElement('tbody');
-        tbody.className = 'tbBody';
-        tbody.contentEditable="true";
-        let headerTb = [];
-        let ids = [];
-
-        let cabecera = document.createElement('th');
-        cabecera.id = 'cabeceraEntidad';
-
-        let celda = document.createElement('td');
-        celda.id = 'celdaEntidad';
-*/
         //Recibe un json con la busqueda deseada
         let crearTablaEntidad = function (busquedas, paginacion) {
             let maxPage = Math.ceil(busquedas.length / paginacion);
             let actualPageNumber = 1;
 
             var renderPagination = function () {
-                sd.innerHTML = style;
+                shadow.innerHTML = style;
 
                 let changePage = function (option) {
-                    if (this.innerText == '<<') {
+                    if (this.innerText == 'Start') {
                         actualPageNumber = 1;
                         this.disabled = true;
-                    } else if (this.innerText == '<') {
+                    } else if (this.innerText == 'Previous') {
                         if (actualPageNumber != 1) {
                             actualPageNumber--;
                         }
-                    } else if (this.innerText == '>') {
+                    } else if (this.innerText == 'Next') {
                         if (actualPageNumber != maxPage) {
                             actualPageNumber++;
                         }
@@ -240,13 +220,13 @@ class dinamicTable extends HTMLElement {
                 let buttonNext = document.createElement("button");
                 let buttonLast = document.createElement("button");
                 let span = document.createElement("span");
-                buttonFirst.innerText = "<<";
+                buttonFirst.innerText = "Start";
                 buttonFirst.onclick = changePage;
-                buttonPrevious.innerText = "<";
+                buttonPrevious.innerText = "Previous";
                 buttonPrevious.onclick = changePage;
-                buttonNext.innerText = ">"
+                buttonNext.innerText = "Next"
                 buttonNext.onclick = changePage;
-                buttonLast.innerText = ">>";
+                buttonLast.innerText = "Last";
                 buttonLast.onclick = changePage;
                 span.innerText = "Pág " + actualPageNumber + " de " + maxPage;
                 paginacionBar.appendChild(buttonFirst);
@@ -255,9 +235,9 @@ class dinamicTable extends HTMLElement {
                 paginacionBar.appendChild(buttonNext);
                 paginacionBar.appendChild(buttonLast);
 
-                sd.appendChild(tableTitleBar);
-                sd.appendChild(contenedor);
-                sd.appendChild(paginacionBar);
+                shadow.appendChild(tableTitleBar);
+                shadow.appendChild(contenedor);
+                shadow.appendChild(paginacionBar);
             }
 
             renderPagination();
