@@ -8,116 +8,12 @@ class dinamicTable extends HTMLElement {
 
     connectedCallback(){
         const shadow = this.attachShadow({ mode: 'open' });
-        let style = `<style>
-        * {
-          font-family: "Gill Sans", sans-serif;
-        }
-        .tbContainer{ /* Estilos del div contenedor de la tabla */
-            width: 100%;
-            overflow-x: auto;
-            max-height: 30em;
-            /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-        }
-
-        .tbTable{
-            border-radius: 15px;
-            /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-            min-width: 100%;
-            max-height: 50%;
-            white-space: nowrap;
-            border-collapse: collapse;
-            border-spacing: 0;
-            -webkit-overflow-scrolling: touch;
-            background-size: 10px 100%, 10px 100%;
-            background-attachment: scroll, scroll;
-            background-repeat: no-repeat;
-            border: 1px solid rgba(84, 83, 83, 0.371);
-            border-style: outset;
-        }
-
-
-        .tbfila-cabecera{
-            background-color: #1A1F25;
-            font-size: 1.1em;
-            color: white;
-            font-family: 'Roboto', sans-serif;
-            text-align: left;
-             }
-
-        .tbcelda-cabecera{
-            padding: 0.5em;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            text-transform: uppercase;
-
-        }
-
-        .tbfila:nth-child(odd){
-            background-color:#EBEBEB;
-
-        }
-
-        .tbfila:nth-child(even) {
-            background-color: #FFFFFF;
-
-        }
-        .tbfila:hover{
-            background-color: rgb(104, 102, 102);
-            color: white;
-            cursor: pointer;
-        }
-
-        .tbcelda{
-            padding: 0.5em;
-            font-family: 'Nunito', sans-serif;
-        }
-
-        .btnAgregar{
-            margin-top: 20px;
-
-            height: 30px;
-            font-size: 1em
-        }
-
-        @media only screen and (max-width: 600px) {
-            .tbContainer {
-                background-color:pink;
-                width: 100%;
-            }
-            .tbTable{
-                margin: 0 auto;
-                width: 90%;
-            }
-
-        }
-        #paginacionBar {
-          text-align: center;
-          margin-top: 20px;
-        }
-
-        #paginacionBar * {
-          margin: 3px;
-        }
-
-        button {
-          background-color: #1A1F25;
-          border-style: outset;
-          border-width: 2px;
-          border-color: #331832;
-          border-radius: 5px;
-          font-weight: bold;
-          padding: 7px;
-          color: whitesmoke;
-        }
-
-        button:hover {
-          background-color: rgb(104, 102, 102);
-        }
-        </style>
+        let style = `<style>@import "tabla.css";</style>
         <div>
             <slot entidad = 'entidad'></slot>
-        </div>`
+        </div>`;
 
-        shadow.innerHTML = style;
+        shadow.innerHTML=style;
 
         //Recibe un json con la busqueda deseada
         let crearTablaEntidad = function (busquedas, paginacion) {
