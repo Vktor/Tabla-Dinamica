@@ -2,8 +2,8 @@ class dinamicTable extends HTMLElement {
     constructor(){
         super();
         this._from ="null";
-        this._busquedas = null;
-        this._metodo = null;
+        this._search = null;
+        this._method = null;
     } //cierre de constructor
 
     connectedCallback(){
@@ -16,8 +16,8 @@ class dinamicTable extends HTMLElement {
         shadow.innerHTML=style;
 
         //Recibe un json con la busqueda deseada
-        let crearTablaEntidad = function (busquedas, paginacion) {
-            let maxPage = Math.ceil(busquedas.length / paginacion);
+        let crearTablaEntidad = function (search, paginacion) {
+            let maxPage = Math.ceil(search.length / paginacion);
             let actualPageNumber = 1;
 
             var renderPagination = function () {
@@ -64,8 +64,8 @@ class dinamicTable extends HTMLElement {
 
                 let columna = [];
 
-                for (var i = 0; i < busquedas.length; i++) {
-                    for (var key in busquedas[i]) {
+                for (var i = 0; i < search.length; i++) {
+                    for (var key in search[i]) {
                         if (columna.indexOf(key) === -1) {
                             columna.push(key);
                         }
@@ -83,7 +83,7 @@ class dinamicTable extends HTMLElement {
                     tabla.appendChild(tr);
                 }
 
-                let maxIndex = actualPageNumber == maxPage ? busquedas.length : paginacion * actualPageNumber;
+                let maxIndex = actualPageNumber == maxPage ? search.length : paginacion * actualPageNumber;
 
                 for (var i = paginacion * actualPageNumber - paginacion; i < maxIndex; i++) {
                     tr = tabla.insertRow(-1);
@@ -92,7 +92,7 @@ class dinamicTable extends HTMLElement {
                     for (var j = 0; j < columna.length; j++) {
                         var newCelda = tr.insertCell(-1);
                         celda.className = 'tbcelda';
-                        newCelda.innerHTML = busquedas[i][columna[j]];
+                        newCelda.innerHTML = search[i][columna[j]];
                         tr.onclick = function(){
 
                             console.log(this.innerText);
@@ -139,16 +139,16 @@ class dinamicTable extends HTMLElement {
             renderPagination();
         }
 
-        let accion = function (entidad, paginacion = 5) {// AA
-            fetch(`http://localhost:8080/MantenimientoTPI-web/webresources/${entidad}`).then(function (respuesta) {
+        let conection = function (entidad, paginacion = 5) {
+            fetch(entidad).then(function (request) {
                 // Convertir a JSON
-                return respuesta.json();
-            }).then(function (j) {
-                // Ahora 'j' es un objeto JSON
-                crearTablaEntidad(j, paginacion);
+                return request.json();
+            }).then(function (data) {
+                // data es un objeto JSON
+                crearTablaEntidad(data, paginacion);
             });
         }
-        accion(this.getAttribute("from"), this.getAttribute("paginacion"));
+        conection(this.getAttribute("from"), this.getAttribute("paginacion"));
     }
 
 } //Cierre de clase
