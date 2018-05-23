@@ -33,7 +33,7 @@ services:
         depends_on:
             - paymantenimiento
         ports:
-            - '3000:3000'
+            - '3006:3000'
         networks: 
             mantenimiento_net:
                 ipv4_address: 172.25.0.30
