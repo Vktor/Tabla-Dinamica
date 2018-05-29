@@ -1,3 +1,4 @@
+import FabricanteResource from "./boundary/FabricanteResource.js"
 class dinamicTable extends HTMLElement {
     constructor(){
         super();
@@ -7,6 +8,8 @@ class dinamicTable extends HTMLElement {
     } //cierre de constructor
 
     connectedCallback(){
+        const fabricante = new FabricanteResource();
+        const data = fabricante.findAll();
         const shadow = this.attachShadow({ mode: 'open' });
         let style = `<style>@import "tabla.css";</style>
         <div>
@@ -17,6 +20,8 @@ class dinamicTable extends HTMLElement {
 
         //Recibe un json con la busqueda deseada
         let crearTablaEntidad = function (search, paginacion) {
+            console.log(data);
+            
             let maxPage = Math.ceil(search.length / paginacion);
             let actualPageNumber = 1;
 
@@ -138,8 +143,11 @@ class dinamicTable extends HTMLElement {
 
             renderPagination();
         }
+        
+        
+        crearTablaEntidad(data, 5);
 
-        let conection = function (entidad, paginacion = 5) {
+        /**let conection = function (entidad, paginacion = 5) {
             fetch(entidad).then(function (request) {
                 // Convertir a JSON
                 return request.json();
@@ -149,6 +157,7 @@ class dinamicTable extends HTMLElement {
             });
         }
         conection(this.getAttribute("from"), this.getAttribute("paginacion"));
+        **/
     }
 
 } //Cierre de clase
