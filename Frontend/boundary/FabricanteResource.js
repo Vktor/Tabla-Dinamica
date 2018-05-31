@@ -24,4 +24,5 @@ export default class FabricanteResource extends AbstractResource {
             throw new Error("El nombre es nulo");
         }
     }
+
 }
