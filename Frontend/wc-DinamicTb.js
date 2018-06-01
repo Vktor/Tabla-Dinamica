@@ -144,8 +144,14 @@ class dinamicTable extends HTMLElement {
             renderPagination();
         }
         
+        if (fabricante.findAll() !== undefined) {
+            crearTablaEntidad(data, 5);
+        } else{
+            let advertencia = document.createElement("h1");
+            advertencia.innerText = "no funciona :v undefined";
+            shadow.appendChild(advertencia);
+        }
         
-        crearTablaEntidad(data, 5);
 
         /**let conection = function (entidad, paginacion = 5) {
             fetch(entidad).then(function (request) {
