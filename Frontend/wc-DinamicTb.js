@@ -1,15 +1,16 @@
-import FabricanteResource from "./boundary/FabricanteResource.js"
+import AbstractResource from "./boundary/AbstractResource.js";
 class dinamicTable extends HTMLElement {
     constructor(){
         super();
-        this._from ="null";
         this._search = null;
         this._method = null;
+        this._datos;
     } //cierre de constructor
 
+
     connectedCallback(){
-        const fabricante = new FabricanteResource();
-        const data = fabricante.findAll();
+        let fabricante = new AbstractResource();
+        let data = fabricante.findAll(this.getAttribute('entidad'));
         const shadow = this.attachShadow({ mode: 'open' });
         let style = `<style>@import "tabla.css";</style>
         <div>
@@ -19,9 +20,7 @@ class dinamicTable extends HTMLElement {
         shadow.innerHTML=style;
 
         //Recibe un json con la busqueda deseada
-        let crearTablaEntidad = function (search, paginacion) {
-            console.log(data);
-            
+        let crearTabla = function (search, paginacion=5) {
             let maxPage = Math.ceil(search.length / paginacion);
             let actualPageNumber = 1;
 
